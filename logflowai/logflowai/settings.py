@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["8000-dhyeymavani20-logflowai-vzdvltnepso.ws-us117.gitpod.io", "https://8000-dhyeymavani20-logflowai-vzdvltnepso.ws-us117.gitpod.io"]
 
-ALLOWED_HOSTS += ["http://127.0.0.1:8000", "http://localhost:8000"]
+ALLOWED_HOSTS += ["http://127.0.0.1", "127.0.0.1","http://localhost:8000"]
 
 # Application definition
 

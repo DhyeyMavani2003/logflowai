@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 class LogEntry(models.Model):
     line_id = models.IntegerField(unique=True)
     date = models.CharField(max_length=10)  # Format: YYYYMMDD

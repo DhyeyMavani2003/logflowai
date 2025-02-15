@@ -11,10 +11,10 @@ class LogEntryViewSet(viewsets.ModelViewSet):
     queryset = LogEntry.objects.all().order_by('-date', '-time')
     serializer_class = LogEntrySerializer
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def import_logs(request):
     """API to import logs from CSV."""
-    file_path = "/mnt/data/HDFS_2k.log_structured.csv"
+    file_path = "./data/HDFS_2k.log_structured.csv"
     LogEntry.import_from_csv(file_path)
     return JsonResponse({"message": "Logs imported successfully."})
 

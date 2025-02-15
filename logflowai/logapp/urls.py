@@ -7,6 +7,6 @@ router.register(r'logs', LogEntryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('logs/import/', import_logs, name='import_logs'),
+    path('logs/import/', import_logs, name='import_logs'),  # Ensure this line exists
     path('logs/anomalies/', detect_anomalies, name='detect_anomalies'),
 ]
