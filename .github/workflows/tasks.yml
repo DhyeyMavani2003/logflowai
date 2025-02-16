@@ -23,7 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Django Management Commands
-      working-directory: ./access_amherst_backend
+      working-directory: ./logflowai
       run: |
         python manage.py import_logs
     - name: Commit and Push Changes
