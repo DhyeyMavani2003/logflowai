@@ -88,31 +88,58 @@ The following diagram provides a detailed breakdown of the application’s inter
 
 ```mermaid
 graph TD
+    %% Data Ingestion Layer
     subgraph "Data Ingestion"
-        A1[CSV Import]
-        A2[Management Commands]
+        A1[Various Log Sources CSV, Syslog, JSON, Kubernetes]
+        A2[Log Importer Management Commands & Endpoints]
         A1 --> A2
     end
 
-    subgraph "Database Operations"
-        B1["LogDB (PostgreSQL/SQLite)"]
+    %% Data Storage Layer
+    subgraph "Data Storage"
+        B1["LogDB PostgreSQL/SQLite"]
+        B2["IRIS Vector Store Document Embeddings"]
     end
 
-    subgraph "Backend Logic"
-        C1[Filter Logs]
-        C2[Aggregate Logs by Hour]
-        C3[Retrieve Unique Services]
+    %% Backend Processing Layer
+    subgraph "Backend Processing"
+        C1[Log Filtering & Aggregation]
+        C2[Dashboard Metrics Computation]
         C1 --> B1
         C2 --> B1
-        C3 --> B1
     end
 
-    subgraph "Frontend Logic"
-        D1[Home Page: List & Filter Logs]
-        D2[Dashboard: Visualize Metrics]
-        D1 --> C1
-        D2 --> C2
-        D2 --> C3
+    %% Machine Learning & Predictions
+    subgraph "Machine Learning"
+        M1[Neural Network PyTorch]
+        M2[Training Data:<br>CSV & HDFS Trace Benchmarks]
+        M2 --> M1
+        M1 --> B1
+    end
+
+    %% Document Ingestion & Similarity Search
+    subgraph "Search & Similarity"
+        S1[Document Ingestion<br>& Embedding]
+        S2[Similarity Search]
+        S1 --> B2
+        S2 --> B2
+    end
+
+    %% API & Integration Layer
+    subgraph "API & Integration"
+        A3[RESTful API & FastAPI<br>/predict Endpoint]
+        A3 --> C1
+        A3 --> C2
+        A3 --> M1
+        A3 --> S2
+    end
+
+    %% Frontend Layer
+    subgraph "Frontend"
+        F1[Home Page:<br>Log Listing & Filtering]
+        F2[Dashboard:<br>Visualizations & Metrics]
+        F1 --> C1
+        F2 --> C2
     end
 ```
 
