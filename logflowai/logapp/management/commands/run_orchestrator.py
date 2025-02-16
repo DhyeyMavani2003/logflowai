@@ -33,6 +33,77 @@ def call_openai(messages):
     )
     return response.choices[0].message.content
 
+def clean_report_via_perplexity(report_text: str) -> str:
+    """
+    Uses the Perplexity API to clean the provided report text.
+    Returns the cleaned report as a string.
+    """
+    if not report_text:
+        return ""
+    
+    PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
+    PERPLEXITY_URL = "https://api.perplexity.ai/chat/completions"
+    
+    system_message = {
+        "role": "system",
+        "content": (
+            "You are a helpful assistant. "
+            "Clean the provided computer technical report by removing any noise or irrelevant content, "
+            "and produce a detailed and cohesive report."
+        )
+    }
+    
+    user_prompt = (
+        "The following is a computer technical report that may contain noise or irrelevant information:\n\n"
+        f"{report_text}\n\n"
+        "Please clean up the report, remove all noise, and produce a detailed and cohesive computer technical report. "
+        "Return just the cleaned report without any additional commentary or formatting."
+    )
+    
+    user_message = {
+        "role": "user",
+        "content": user_prompt
+    }
+    
+    payload = {
+        "model": "sonar",  # or another Perplexity model if preferred
+        "messages": [system_message, user_message],
+        "max_tokens": 800,
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 0,
+        "frequency_penalty": 1,
+        "presence_penalty": 0,
+        "stream": False
+    }
+    
+    headers = {
+        "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    try:
+        response = requests.post(PERPLEXITY_URL, headers=headers, json=payload, timeout=30)
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Request to Perplexity failed: {e}")
+    
+    if response.status_code != 200:
+        raise RuntimeError(
+            f"Perplexity API returned status code {response.status_code}.\n"
+            f"Response Body: {response.text}"
+        )
+    
+    resp_data = response.json()
+    choices = resp_data.get("choices", [])
+    if not choices:
+        raise RuntimeError("No 'choices' returned by the Perplexity model.")
+    
+    clean_report = choices[0].get("message", {}).get("content", "").strip()
+    if not clean_report:
+        raise RuntimeError("The model returned empty content.")
+    
+    return clean_report
+
 class MyState(TypedDict):
     # Store typed messages from the beginning
     messages: Annotated[list, add_messages]
@@ -199,7 +270,7 @@ graph_builder.add_edge("orchestrator_combine", END)
 graph = graph_builder.compile()
 
 class Command(BaseCommand):
-    help = "Runs the LangGraph orchestrator to process a user query with multiple LLM perspectives and stores the output in a Markdown report."
+    help = "Runs the LangGraph orchestrator to process a user query with multiple LLM perspectives, cleans the generated report using Perplexity, and stores the final cleaned report in a Markdown file."
 
     def handle(self, *args, **options):
         # Create a list to capture output lines.
@@ -207,9 +278,7 @@ class Command(BaseCommand):
 
         def write_line(msg):
             """Helper function to write a message and store it."""
-            # Write to the standard output.
             self.stdout.write(msg)
-            # Append the message with a newline.
             output_lines.append(msg + "\n")
 
         from langchain.schema import HumanMessage  # Import HumanMessage locally if needed
@@ -231,7 +300,6 @@ class Command(BaseCommand):
         for idx, event in enumerate(graph.stream(initial_state)):
             write_line(f"\n## Event {idx}")
             write_line(f"State keys: {list(event.keys())}")
-            # Iterate over event contents safely.
             for key, value in event.items():
                 if isinstance(value, dict):
                     for subkey, subvalue in value.items():
@@ -248,17 +316,30 @@ class Command(BaseCommand):
 
         write_line("Orchestration completed.")
 
-        # Determine the report folder and filename.
-        report_dir = os.path.join(os.getcwd(), "agentic_historical_reports")
+        # Combine the output lines into one raw report text.
+        raw_report_text = "".join(output_lines)
+
+        # Clean the generated report using the Perplexity API.
+        try:
+            cleaned_report = clean_report_via_perplexity(raw_report_text)
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Error cleaning report via Perplexity: {e}"))
+            return
+
+        # Define folder and filename for the final cleaned report.
+        report_dir = os.path.join(os.getcwd(), "cleaned_historical_summary_reports")
         os.makedirs(report_dir, exist_ok=True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        report_filename = f"report_{timestamp}.md"
+        report_filename = f"cleaned_report_{timestamp}.md"
         report_path = os.path.join(report_dir, report_filename)
 
-        # Write the collected output to the Markdown file.
-        with open(report_path, "w", encoding="utf-8") as f:
-            f.write("## Orchestrator Report\n\n")
-            f.writelines(output_lines)
+        # Write the cleaned report to the file.
+        try:
+            with open(report_path, "w", encoding="utf-8") as f:
+                f.write("## Final Cleaned Technical Report\n\n")
+                f.write(cleaned_report)
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Error writing cleaned report to file: {e}"))
+            return
 
-        write_line(f"Report saved to: {report_path}")
-        self.stdout.write(self.style.SUCCESS("Orchestration completed and report saved."))
+        self.stdout.write(self.style.SUCCESS(f"Cleaned report saved to: {report_path}"))
