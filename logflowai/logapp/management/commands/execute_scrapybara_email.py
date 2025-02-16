@@ -47,7 +47,7 @@ Your objective is to send an email using Microsoft Outlook via its web interface
 Follow these steps precisely:
 
 1. Click the "Sign in" button.
-2. Log in with the account: DUTYtreehacks@outlook.com.
+2. Log in with the account: hacktreeeeee@outlook.com
 3. When prompted, enter the password: "{outlook_password}".
 4. After a successful login, click on the blue "New Mail" button on the top-left corner.
 5. In the new email form, fill in the following details:
