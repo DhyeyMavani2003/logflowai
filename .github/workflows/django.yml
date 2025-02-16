@@ -35,16 +35,6 @@ jobs:
       working-directory: ./logflowai
       run: |
         pytest --cov --cov-config=.coveragerc --cov-fail-under=90
-    - name: Handle static files
-      working-directory: ./logflowai
-      run: |
-        rm -rf ./staticfiles
-        python manage.py collectstatic --noinput
-        ls -la staticfiles
-        # Verify CSS exists
-        find staticfiles -name "*.css"
-        # Check file permissions
-        chmod -R 755 staticfiles
     - name: Coveralls workflow
       working-directory: ./logflowai
       run: |
