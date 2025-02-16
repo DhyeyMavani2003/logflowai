@@ -109,16 +109,29 @@ timestamp, log level, message, service, host, and additional metadata as JSON.</
 <dl class="py class" id="module-logapp.models">
 <dt class="sig sig-object py" id="logapp.models.LogEntry">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">logapp.models.</span></span><span class="sig-name descname"><span class="pre">LogEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#logapp.models.LogEntry" title="Link to this definition">¶</a></dt>
-<dd><p>LogEntry model representing a log event.</p>
-<dl class="simple">
-<dt>Fields:</dt><dd><p>timestamp: The datetime when the log was recorded.
-level: The severity level (e.g., INFO, WARN, ERROR).
-message: The log message.
-service: The service or component that produced the log.
-host: The hostname or IP of the machine where the log originated.
-additional_data: Any additional structured data stored in JSON.</p>
+<dd><p>LogEntry model representing a log event with various details such as timestamp, level,
+message, service, host, and additional data. This class stores log events produced by
+various services and allows for the inclusion of extra structured data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) -- A unique identifier for the log entry (primary key).</p></li>
+<li><p><strong>timestamp</strong> (<em>datetime</em><em>, </em><em>optional</em>) -- The datetime when the log was recorded.</p></li>
+<li><p><strong>level</strong> (<em>str</em><em>, </em><em>optional</em>) -- The severity level of the log event (e.g., INFO, WARN, ERROR).</p></li>
+<li><p><strong>message</strong> (<em>str</em><em>, </em><em>optional</em>) -- The log message providing details about the event.</p></li>
+<li><p><strong>service</strong> (<em>str</em><em>, </em><em>optional</em>) -- The service or component that produced the log.</p></li>
+<li><p><strong>host</strong> (<em>str</em><em>, </em><em>optional</em>) -- The hostname or IP address of the machine where the log originated.</p></li>
+<li><p><strong>additional_data</strong> (<em>dict</em><em>, </em><em>optional</em>) -- Any additional structured data stored as JSON.</p></li>
+</ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="logapp.models.LogEntry.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#logapp.models.LogEntry.__str__" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a string representation of the log entry in the format:
+[timestamp] level: message.</p>
+</dd></dl>
+
 <dl class="py exception">
 <dt class="sig sig-object py" id="logapp.models.LogEntry.DoesNotExist">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#logapp.models.LogEntry.DoesNotExist" title="Link to this definition">¶</a></dt>
@@ -150,6 +163,7 @@ additional_data: Any additional structured data stored in JSON.</p>
                             <ul>
 <li><a class="reference internal" href="#">LogEntry Model</a><ul>
 <li><a class="reference internal" href="#logapp.models.LogEntry"><code class="docutils literal notranslate"><span class="pre">LogEntry</span></code></a><ul>
+<li><a class="reference internal" href="#logapp.models.LogEntry.__str__"><code class="docutils literal notranslate"><span class="pre">LogEntry.__str__()</span></code></a></li>
 <li><a class="reference internal" href="#logapp.models.LogEntry.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">LogEntry.DoesNotExist</span></code></a></li>
 <li><a class="reference internal" href="#logapp.models.LogEntry.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">LogEntry.MultipleObjectsReturned</span></code></a></li>
 </ul>
