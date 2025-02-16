@@ -1,12 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import LogEntryViewSet, import_logs, detect_anomalies
-
-router = DefaultRouter()
-router.register(r'logs', LogEntryViewSet)
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('logs/import/', import_logs, name='import_logs'),  # Ensure this line exists
-    path('logs/anomalies/', detect_anomalies, name='detect_anomalies'),
+    path("", views.home, name="logflow_home"),
+    path("dashboard/", views.dashboard, name="logflow_dashboard"),
+    path("update_chart/", views.update_chart, name="update_chart"),
 ]

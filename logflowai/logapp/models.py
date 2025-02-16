@@ -1,36 +1,23 @@
 from django.db import models
 
 class LogEntry(models.Model):
-    line_id = models.IntegerField(unique=True)
-    date = models.CharField(max_length=10)  # Format: YYYYMMDD
-    time = models.CharField(max_length=10)  # Format: HHMMSS
-    pid = models.IntegerField()
-    level = models.CharField(max_length=10, choices=[
-        ('INFO', 'INFO'), ('WARNING', 'WARNING'), ('ERROR', 'ERROR'), ('CRITICAL', 'CRITICAL')
-    ])
-    component = models.CharField(max_length=100)
-    content = models.TextField()
-    event_id = models.CharField(max_length=10)
-    event_template = models.TextField()
+    """
+    LogEntry model representing a log event.
 
-    @classmethod
-    def import_from_csv(cls, csv_path):
-        import pandas as pd
-        df = pd.read_csv(csv_path)
-        for _, row in df.iterrows():
-            cls.objects.update_or_create(
-                line_id=row['LineId'],
-                defaults={
-                    'date': row['Date'],
-                    'time': row['Time'],
-                    'pid': row['Pid'],
-                    'level': row['Level'],
-                    'component': row['Component'],
-                    'content': row['Content'],
-                    'event_id': row['EventId'],
-                    'event_template': row['EventTemplate']
-                }
-            )
-
+    Fields:
+      timestamp: The datetime when the log was recorded.
+      level: The severity level (e.g., INFO, WARNING, ERROR).
+      message: The log message.
+      service: The service or component that produced the log.
+      host: The hostname or IP of the machine where the log originated.
+      additional_data: Any additional structured data stored in JSON.
+    """
+    timestamp = models.DateTimeField()
+    level = models.CharField(max_length=20)
+    message = models.TextField()
+    service = models.CharField(max_length=100, null=True, blank=True)
+    host = models.CharField(max_length=100, null=True, blank=True)
+    additional_data = models.JSONField(null=True, blank=True)
+    
     def __str__(self):
-        return f"{self.date} {self.time} - {self.level} - {self.component}"
+        return f"[{self.timestamp}] {self.level}: {self.message}"

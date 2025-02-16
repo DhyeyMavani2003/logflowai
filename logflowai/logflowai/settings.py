@@ -19,6 +19,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-1fxq63*y481k@ww4zkgt3xf0jqhro)tzi%^%9b6+qg)d5ymj=k'
 
@@ -38,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'logapp',  # Added our app
 ]
 
