@@ -25,6 +25,8 @@ jobs:
     - name: Run Django Management Commands
       working-directory: ./logflowai
       run: |
+        python manage.py makemigrations
+        python manage.py migrate
         python manage.py import_logs
     - name: Commit and Push Changes
       run: |
