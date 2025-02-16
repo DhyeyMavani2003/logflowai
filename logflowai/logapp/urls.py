@@ -6,4 +6,5 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="logflow_dashboard"),
     path("update_chart/", views.update_chart, name="update_chart"),
     path("import_logs/", views.import_logs, name="logflow_import"),
+    path("send_email/", views.send_email, name="logflow_send_email"),
 ]

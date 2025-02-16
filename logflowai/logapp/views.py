@@ -10,7 +10,6 @@ from django.core.management import call_command
 from .models import LogEntry
 from .parse_database import filter_logs, get_logs_by_hour, get_unique_services
 
-
 @csrf_exempt
 def import_logs(request):
     """
@@ -25,6 +24,19 @@ def import_logs(request):
     return JsonResponse(
         {"status": "error", "message": "POST request required."}, status=400
     )
+
+@csrf_exempt
+def send_email(request):
+    """
+    Trigger the send_email management command to send an email via Outlook.
+    """
+    if request.method == "POST":
+        try:
+            call_command("execute_scrapybara_email")
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+    return JsonResponse({"status": "error", "message": "POST request required."}, status=400)
 
 
 def home(request):
