@@ -1,18 +1,14 @@
 Welcome to LogFlowAI's Documentation!
 =======================================
-
-LogFlowAI is a real-time log analysis and monitoring platform. It ingests,
-filters, and visualizes log data to help teams diagnose issues and monitor
-system performance efficiently.
+LogFlowAI is an enterprise-grade platform for real-time log analysis and monitoring, designed to handle massive log volumes across distributed systems. Our platform empowers engineering teams with advanced tools for log ingestion, intelligent analysis, and interactive visualizations to maintain optimal system performance and quickly diagnose issues.
 
 Overview
 ========
 
-LogFlowAI provides:
-- **Real-time Log Ingestion:** Import and process log data from CSV files and other sources.
-- **Advanced Filtering:** Search logs by query, level, service, or date range.
-- **Dashboard Visualizations:** See aggregated metrics such as logs per hour and unique service statistics.
-- **Extensible API:** Easily extend and integrate log analysis with your existing systems.
+- **Real-time Log Ingestion:** Stream and process logs from diverse sources including CSV files, syslog streams, JSON endpoints, and Kubernetes logs. Support both batch processing for historical data and real-time streaming with sub-second latency. Automatically handle data validation, field extraction, and timestamp normalization across multiple timezones.
+- **Advanced Filtering:** Power through millions of log entries with our sophisticated search capabilities. Combine full-text search, regex patterns, and field-specific filters to pinpoint exactly what you need. Features include fuzzy matching, saved searches, query templates, and support for complex boolean operations across log level, service name, timestamp, and custom fields.
+- **Dashboard Visualizations:** Transform raw logs into actionable insights with our interactive dashboards. Track key metrics like error rates and service health in real-time, visualize log patterns with heat maps and time-series graphs, and create custom views for different teams. All visualizations support drill-down capabilities and export options for deeper analysis.
+- **Extensible API:** Seamlessly integrate LogFlowAI into your existing infrastructure through our comprehensive RESTful API. Ingest logs programmatically, trigger automated analyses, and export metrics to external systems. The API includes robust authentication, rate limiting, detailed documentation, and support for custom plugins to extend functionality.
 
 Getting Started
 ===============
