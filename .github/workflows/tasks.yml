@@ -29,6 +29,7 @@ jobs:
         python manage.py migrate
         python manage.py import_logs
     - name: Execute Scrapybara Email Command
+      working-directory: ./logflowai
       env:
         SCRAPY_KEY: ${{ secrets.SCRAPY_KEY }}
         OUTLOOK_PASSWORD: ${{ secrets.OUTLOOK_PASSWORD }}
