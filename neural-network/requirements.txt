@@ -1,0 +1,13 @@
+openai 
+tiktoken
+python-dotenv
+pandas
+ipykernel
+setuptools
+fastapi
+pydantic
+torch
+torchvision
+mangum
+pyngrok
+uvicorn
