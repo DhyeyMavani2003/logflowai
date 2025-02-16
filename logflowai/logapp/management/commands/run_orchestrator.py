@@ -14,7 +14,7 @@ import requests
 from datetime import datetime
 
 # Set the prediction endpoint URL (adjust if needed)
-URL = "https://1398-68-65-164-53.ngrok-free.app/predict"
+URL = "https://6971-34-138-181-102.ngrok-free.app/predict"
 
 load_dotenv()
 
