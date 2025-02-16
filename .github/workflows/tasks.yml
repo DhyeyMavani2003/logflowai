@@ -28,6 +28,11 @@ jobs:
         python manage.py makemigrations
         python manage.py migrate
         python manage.py import_logs
+    - name: Execute Agentic Report Creation Command
+      working-directory: ./logflowai
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: python manage.py run_orchestrator    
     - name: Execute Scrapybara Email Command
       working-directory: ./logflowai
       env:

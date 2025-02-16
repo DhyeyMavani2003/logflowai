@@ -38,6 +38,18 @@ def send_email(request):
             return JsonResponse({"status": "error", "message": str(e)})
     return JsonResponse({"status": "error", "message": "POST request required."}, status=400)
 
+@csrf_exempt
+def run_orchestrator(request):
+    """
+    Trigger the run_orchestrator management command to execute the LangGraph orchestrator.
+    """
+    if request.method == "POST":
+        try:
+            call_command("run_orchestrator")
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+    return JsonResponse({"status": "error", "message": "POST request required."}, status=400)
 
 def home(request):
     """
