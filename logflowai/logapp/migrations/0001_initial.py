@@ -7,23 +7,41 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='LogEntry',
+            name="LogEntry",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('line_id', models.IntegerField(unique=True)),
-                ('date', models.CharField(max_length=10)),
-                ('time', models.CharField(max_length=10)),
-                ('pid', models.IntegerField()),
-                ('level', models.CharField(choices=[('INFO', 'INFO'), ('WARNING', 'WARNING'), ('ERROR', 'ERROR'), ('CRITICAL', 'CRITICAL')], max_length=10)),
-                ('component', models.CharField(max_length=100)),
-                ('content', models.TextField()),
-                ('event_id', models.CharField(max_length=10)),
-                ('event_template', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("line_id", models.IntegerField(unique=True)),
+                ("date", models.CharField(max_length=10)),
+                ("time", models.CharField(max_length=10)),
+                ("pid", models.IntegerField()),
+                (
+                    "level",
+                    models.CharField(
+                        choices=[
+                            ("INFO", "INFO"),
+                            ("WARNING", "WARNING"),
+                            ("ERROR", "ERROR"),
+                            ("CRITICAL", "CRITICAL"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("component", models.CharField(max_length=100)),
+                ("content", models.TextField()),
+                ("event_id", models.CharField(max_length=10)),
+                ("event_template", models.TextField()),
             ],
         ),
     ]

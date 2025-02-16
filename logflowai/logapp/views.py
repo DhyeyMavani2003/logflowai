@@ -10,6 +10,7 @@ from django.core.management import call_command
 from .models import LogEntry
 from .parse_database import filter_logs, get_logs_by_hour, get_unique_services
 
+
 @csrf_exempt
 def import_logs(request):
     """
@@ -17,11 +18,14 @@ def import_logs(request):
     """
     if request.method == "POST":
         try:
-            call_command('import_logs')
-            return JsonResponse({'status': 'success'})
+            call_command("import_logs")
+            return JsonResponse({"status": "success"})
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
-    return JsonResponse({'status': 'error', 'message': 'POST request required.'}, status=400)
+            return JsonResponse({"status": "error", "message": str(e)})
+    return JsonResponse(
+        {"status": "error", "message": "POST request required."}, status=400
+    )
+
 
 def home(request):
     """
@@ -30,20 +34,26 @@ def home(request):
     query = request.GET.get("query", "")
     level = request.GET.get("level", None)
     service = request.GET.get("service", None)
-    
+
     # Default date range: past 7 days
     today = timezone.now().date()
     default_start = (today - timedelta(days=7)).isoformat()
     default_end = today.isoformat()
-    
+
     start_date = request.GET.get("start_date", default_start)
     end_date = request.GET.get("end_date", default_end)
-    
+
     start_date_obj = parser.parse(start_date).date()
     end_date_obj = parser.parse(end_date).date()
-    
-    logs = filter_logs(query=query, level=level, service=service, start_date=start_date_obj, end_date=end_date_obj)
-    
+
+    logs = filter_logs(
+        query=query,
+        level=level,
+        service=service,
+        start_date=start_date_obj,
+        end_date=end_date_obj,
+    )
+
     # Group logs by date
     logs_by_date = {}
     for log in logs:
@@ -51,11 +61,11 @@ def home(request):
         if log.timestamp:
             log_date = log.timestamp.astimezone(pytz.UTC).date()
             logs_by_date.setdefault(log_date, []).append(log)
-    
+
     # Sort each group by timestamp
     for date_key in logs_by_date:
         logs_by_date[date_key].sort(key=lambda x: x.timestamp)
-    
+
     context = {
         "logs_by_date": logs_by_date,
         "query": query,
@@ -67,17 +77,19 @@ def home(request):
     }
     return render(request, "logapp/home.html", context)
 
+
 def dashboard(request):
     """
     Render a dashboard view with log insights such as logs per hour.
     """
     tz = pytz.timezone("UTC")
     logs = LogEntry.objects.all()
-    
+
     context = {
         "logs_by_hour": get_logs_by_hour(logs, tz),
     }
     return render(request, "logapp/dashboard.html", context)
+
 
 @csrf_exempt
 def update_chart(request):
@@ -88,12 +100,14 @@ def update_chart(request):
         data = json.loads(request.body)
         min_hour = data.get("min_hour", 0)
         max_hour = data.get("max_hour", 23)
-        
+
         tz = pytz.timezone("UTC")
         logs = LogEntry.objects.all().exclude(timestamp__isnull=True)
-        filtered_logs = logs.filter(timestamp__hour__gte=min_hour, timestamp__hour__lte=max_hour)
+        filtered_logs = logs.filter(
+            timestamp__hour__gte=min_hour, timestamp__hour__lte=max_hour
+        )
         logs_by_hour = get_logs_by_hour(filtered_logs, tz)
-        
+
         return JsonResponse({"logs_by_hour": list(logs_by_hour)})
-    
+
     return JsonResponse({"error": "Invalid request method"}, status=400)

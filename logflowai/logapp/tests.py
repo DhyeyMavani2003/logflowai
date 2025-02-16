@@ -3,6 +3,7 @@ from datetime import datetime
 import pytz
 from .models import LogEntry
 
+
 class LogEntryTestCase(TestCase):
     def setUp(self):
         LogEntry.objects.create(
@@ -10,9 +11,9 @@ class LogEntryTestCase(TestCase):
             level="INFO",
             message="This is a test log entry.",
             service="TestService",
-            host="127.0.0.1"
+            host="127.0.0.1",
         )
-    
+
     def test_log_entry_creation(self):
         log = LogEntry.objects.get(service="TestService")
         self.assertEqual(log.level, "INFO")

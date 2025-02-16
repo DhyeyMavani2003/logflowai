@@ -7,67 +7,67 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logapp', '0001_initial'),
+        ("logapp", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='logentry',
-            old_name='content',
-            new_name='message',
+            model_name="logentry",
+            old_name="content",
+            new_name="message",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='component',
+            model_name="logentry",
+            name="component",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='date',
+            model_name="logentry",
+            name="date",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='event_id',
+            model_name="logentry",
+            name="event_id",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='event_template',
+            model_name="logentry",
+            name="event_template",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='line_id',
+            model_name="logentry",
+            name="line_id",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='pid',
+            model_name="logentry",
+            name="pid",
         ),
         migrations.RemoveField(
-            model_name='logentry',
-            name='time',
+            model_name="logentry",
+            name="time",
         ),
         migrations.AddField(
-            model_name='logentry',
-            name='additional_data',
+            model_name="logentry",
+            name="additional_data",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='logentry',
-            name='host',
+            model_name="logentry",
+            name="host",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AddField(
-            model_name='logentry',
-            name='service',
+            model_name="logentry",
+            name="service",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AddField(
-            model_name='logentry',
-            name='timestamp',
+            model_name="logentry",
+            name="timestamp",
             field=models.DateTimeField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='logentry',
-            name='level',
+            model_name="logentry",
+            name="level",
             field=models.CharField(max_length=20),
         ),
     ]

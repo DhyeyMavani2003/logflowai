@@ -66,7 +66,7 @@
       <select name="level">
         <option value="">All Levels</option>
         <option value="INFO" {% if level == 'INFO' %}selected{% endif %}>INFO</option>
-        <option value="WARNING" {% if level == 'WARNING' %}selected{% endif %}>WARNING</option>
+        <option value="WARN" {% if level == 'WARN' %}selected{% endif %}>WARN</option>
         <option value="ERROR" {% if level == 'ERROR' %}selected{% endif %}>ERROR</option>
       </select>
       <input type="text" name="service" placeholder="Service" value="{{ service }}">

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logapp', '0004_alter_logentry_level'),
+        ("logapp", "0004_alter_logentry_level"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='logentry',
-            name='timestamp',
+            model_name="logentry",
+            name="timestamp",
             field=models.DateTimeField(null=True),
         ),
     ]
