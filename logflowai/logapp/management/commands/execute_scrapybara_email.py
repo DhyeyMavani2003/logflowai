@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from playwright.sync_api import sync_playwright
 
+
 class Command(BaseCommand):
     help = "Sends an email via Outlook using Scrapybara and Playwright."
 
@@ -15,7 +16,11 @@ class Command(BaseCommand):
         scrapy_key = os.getenv("SCRAPY_KEY")
         outlook_password = os.getenv("OUTLOOK_PASSWORD")
         if not scrapy_key or not outlook_password:
-            self.stdout.write(self.style.ERROR("Missing SCRAPY_KEY or OUTLOOK_PASSWORD in .env"))
+            self.stdout.write(
+                self.style.ERROR(
+                    "Missing SCRAPY_KEY or OUTLOOK_PASSWORD in .env"
+                )
+            )
             return
 
         self.stdout.write("Starting Scrapybara client...")
@@ -39,7 +44,9 @@ class Command(BaseCommand):
             self.stdout.write(f"Instance stream URL: {stream_url}")
 
             # Navigate to the Outlook login page.
-            page.goto("https://www.microsoft.com/en-us/microsoft-365/outlook/log-in")
+            page.goto(
+                "https://www.microsoft.com/en-us/microsoft-365/outlook/log-in"
+            )
 
             # Construct a detailed prompt instructing the agent on what to do.
             prompt_text = f"""
@@ -64,12 +71,14 @@ Provide step-by-step automation commands to perform these actions using the avai
                 tools=[
                     ComputerTool(instance),
                     BashTool(instance),
-                    EditTool(instance)
+                    EditTool(instance),
                 ],
                 model=Anthropic(),
                 system="You are an automated web-interaction agent that can control a Linux system to perform browser automation tasks.",
                 prompt=prompt_text,
-                on_step=lambda step: self.stdout.write(f"[Agent Step]: {step.text}")
+                on_step=lambda step: self.stdout.write(
+                    f"[Agent Step]: {step.text}"
+                ),
             )
 
             # Output the agent's response.
@@ -82,4 +91,6 @@ Provide step-by-step automation commands to perform these actions using the avai
         finally:
             instance.stop()
             playwright.stop()
-            self.stdout.write(self.style.SUCCESS("Email automation completed successfully."))
+            self.stdout.write(
+                self.style.SUCCESS("Email automation completed successfully.")
+            )

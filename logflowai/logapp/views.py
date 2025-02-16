@@ -10,6 +10,7 @@ from django.core.management import call_command
 from .models import LogEntry
 from .parse_database import filter_logs, get_logs_by_hour, get_unique_services
 
+
 @csrf_exempt
 def import_logs(request):
     """
@@ -25,6 +26,7 @@ def import_logs(request):
         {"status": "error", "message": "POST request required."}, status=400
     )
 
+
 @csrf_exempt
 def send_email(request):
     """
@@ -36,7 +38,10 @@ def send_email(request):
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
-    return JsonResponse({"status": "error", "message": "POST request required."}, status=400)
+    return JsonResponse(
+        {"status": "error", "message": "POST request required."}, status=400
+    )
+
 
 @csrf_exempt
 def run_orchestrator(request):
@@ -49,7 +54,10 @@ def run_orchestrator(request):
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
-    return JsonResponse({"status": "error", "message": "POST request required."}, status=400)
+    return JsonResponse(
+        {"status": "error", "message": "POST request required."}, status=400
+    )
+
 
 def home(request):
     """

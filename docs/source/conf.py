@@ -16,7 +16,7 @@ release = "0.0.0"
 
 extensions = [
     "sphinx.ext.autodoc",
-    'sphinx.ext.napoleon',
+    "sphinx.ext.napoleon",
 ]
 
 templates_path = ["_templates"]
@@ -30,18 +30,18 @@ language = "python"
 extensions.append("sphinx_wagtail_theme")
 html_theme = "sphinx_wagtail_theme"
 html_theme_options = dict(
-    project_name = "LogFlowAI",
-    logo = "",
-    logo_alt = "",
-    logo_height = 50,
-    logo_url = "/",
-    logo_width = 50,
-    github_url = "https://github.com/DhyeyMavani2003/logflowai/",
+    project_name="LogFlowAI",
+    logo="",
+    logo_alt="",
+    logo_height=50,
+    logo_url="/",
+    logo_width=50,
+    github_url="https://github.com/DhyeyMavani2003/logflowai/",
 )
 
 html_static_path = ["_static"]
 html_css_files = [
-    'custom.css',
+    "custom.css",
 ]
 
 templates_path = ["_templates"]

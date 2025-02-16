@@ -23,5 +23,3 @@ class LogEntry(models.Model):
 
     def __str__(self):
         return f"[{self.timestamp}] {self.level}: {self.message}"
-
-
