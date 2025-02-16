@@ -67,9 +67,9 @@ def home(request):
     level = request.GET.get("level", None)
     service = request.GET.get("service", None)
 
-    # Default date range: past 7 days
+    # Default date range: past  days
     today = timezone.now().date()
-    default_start = (today - timedelta(days=7)).isoformat()
+    default_start = (today - timedelta(days=7, weeks=52*25)).isoformat()
     default_end = today.isoformat()
 
     start_date = request.GET.get("start_date", default_start)
