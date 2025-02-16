@@ -28,10 +28,11 @@ jobs:
         python manage.py makemigrations
         python manage.py migrate
         python manage.py import_logs
-    - name: Trigger Scrapybara Email
-      working-directory: ./logflowai
-      run: |
-        python manage.py execute_scrapybara_email
+    - name: Execute Scrapybara Email Command
+      env:
+        SCRAPY_KEY: ${{ secrets.SCRAPY_KEY }}
+        OUTLOOK_PASSWORD: ${{ secrets.OUTLOOK_PASSWORD }}
+      run: python manage.py execute_scrapybara_email
     - name: Commit and Push Changes
       run: |
         git config --global user.name "github-actions[bot]"
