@@ -7,7 +7,7 @@ class LogEntry(models.Model):
 
     Fields:
       timestamp: The datetime when the log was recorded.
-      level: The severity level (e.g., INFO, WARNING, ERROR).
+      level: The severity level (e.g., INFO, WARN, ERROR).
       message: The log message.
       service: The service or component that produced the log.
       host: The hostname or IP of the machine where the log originated.

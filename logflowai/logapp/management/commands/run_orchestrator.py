@@ -49,7 +49,7 @@ def clean_report_via_perplexity(report_text: str) -> str:
         "content": (
             "You are a helpful assistant. "
             "Clean the provided computer technical report by removing any noise or irrelevant content, "
-            "and produce a detailed and cohesive report."
+            "and produce a detailed and cohesive report without omitting any numbers especially probability and predictions."
         )
     }
     
@@ -282,12 +282,12 @@ class Command(BaseCommand):
             output_lines.append(msg + "\n")
 
         from langchain.schema import HumanMessage  # Import HumanMessage locally if needed
-        user_query = "My Mac shows a strange error for 3 days. What could be causing it?"
+        user_query = "My Mac shows a strange error for 3 days. What could be causing it? Be specific on the logs and errors you analyze and reason through."
         initial_state = {
             "messages": [HumanMessage(content=user_query)],
-            "ds_data": {"features": [21, 0, 0, 203, 0, 3, 0, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 0, 0, 3, 0, 0, 0]},
-            "mobile_data": {"features": [25, 1, 0, 190, 1, 2, 0, 1, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 0, 1, 2, 0, 0, 0]},
-            "os_data": {"features": [20, 0, 1, 210, 0, 3, 0, 0, 1, 3, 0, 3, 0, 1, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 0, 0, 3, 0, 1, 0]},
+            "ds_data": {"features": [0,0,2,1,0,3,0,0,0,3,0,3,0,0,0,0,0,0,0,0,0,3,1,3,0,0,3,0,0,0]},
+            "mobile_data": {"features": [21,0,0,203,0,3,0,0,0,3,0,3,0,0,0,0,0,0,0,0,1,3,1,3,0,0,3,0,0,0]},
+            "os_data": {"features": [0,0,3,0,0,3,0,0,0,3,0,3,0,0,0,0,0,0,0,0,0,3,1,3,0,0,3,0,0,0]},
             "os_answer": "",
             "mobile_answer": "",
             "application_answer": "",
