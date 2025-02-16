@@ -7,7 +7,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <style>
-    /* Minimal inline styles for the dashboard */
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
     header { background-color: #333; color: white; padding: 1em; }
     nav a { color: white; margin-right: 1em; text-decoration: none; }
@@ -29,8 +28,6 @@
       <canvas id="logsByHourChart"></canvas>
     </div>
     <script>
-      // Prepare chart data from context variable logs_by_hour.
-      // Expecting logs_by_hour to be a list of dicts with 'hour' and 'log_count' keys.
       const labels = [
         {% for item in logs_by_hour %}
           "{{ item.hour }}",

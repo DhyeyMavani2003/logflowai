@@ -3,11 +3,25 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from dateutil import parser
-from datetime import timedelta, datetime
+from datetime import timedelta
 import json
 import pytz
+from django.core.management import call_command
 from .models import LogEntry
 from .parse_database import filter_logs, get_logs_by_hour, get_unique_services
+
+@csrf_exempt
+def import_logs(request):
+    """
+    Trigger the import_logs management command to load log data from CSV.
+    """
+    if request.method == "POST":
+        try:
+            call_command('import_logs')
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'POST request required.'}, status=400)
 
 def home(request):
     """
@@ -33,8 +47,10 @@ def home(request):
     # Group logs by date
     logs_by_date = {}
     for log in logs:
-        log_date = log.timestamp.astimezone(pytz.UTC).date()
-        logs_by_date.setdefault(log_date, []).append(log)
+        # Only include logs with a valid timestamp
+        if log.timestamp:
+            log_date = log.timestamp.astimezone(pytz.UTC).date()
+            logs_by_date.setdefault(log_date, []).append(log)
     
     # Sort each group by timestamp
     for date_key in logs_by_date:
@@ -75,7 +91,6 @@ def update_chart(request):
         
         tz = pytz.timezone("UTC")
         logs = LogEntry.objects.all().exclude(timestamp__isnull=True)
-        # Filter logs within the specified hour range (using database functions as appropriate)
         filtered_logs = logs.filter(timestamp__hour__gte=min_hour, timestamp__hour__lte=max_hour)
         logs_by_hour = get_logs_by_hour(filtered_logs, tz)
         
